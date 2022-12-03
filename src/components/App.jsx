@@ -46,7 +46,9 @@ export class App extends Component {
     const number = e.number;
     const contactsLists = [...this.state.contacts];
 
-    if (contactsLists.findIndex(contact => name === contact.name) !== -1) {
+    const isExist = contactsLists.findIndex(contact => name === contact.name) !== -1;
+
+    if (isExist) {
       alert(`${name} is already in contacts.`);
     } else {
       contactsLists.push({ name, id, number });

@@ -15,6 +15,26 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    console.log('componentDidMount');
+    const contactsFromLocalStorage = localStorage.getItem('contactList');
+    const parsedContacts = JSON.parse(contactsFromLocalStorage);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate');
+    const prevStateContacts = prevState.contacts;
+    const nextStayContacts = this.state.contacts;
+
+    if (prevStateContacts !== nextStayContacts) {
+      localStorage.setItem('contactList', JSON.stringify(nextStayContacts));
+    }
+  }
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -26,18 +46,14 @@ export class App extends Component {
     const number = e.number;
     const contactsLists = [...this.state.contacts];
 
-    const isExist =
-      contactsLists.findIndex(contact => name === contact.name) !== -1;
-
-    if (isExist) {
-      return alert(`${contactsLists} is already in contacts.`);
+    if (contactsLists.findIndex(contact => name === contact.name) !== -1) {
+      alert(`${name} is already in contacts.`);
     } else {
       contactsLists.push({ name, id, number });
     }
 
     this.setState({ contacts: contactsLists });
   };
-
   handleDelete = e => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== e),

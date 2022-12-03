@@ -16,7 +16,6 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    console.log('componentDidMount');
     const contactsFromLocalStorage = localStorage.getItem('contactList');
     const parsedContacts = JSON.parse(contactsFromLocalStorage);
 
@@ -26,7 +25,6 @@ export class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
     const prevStateContacts = prevState.contacts;
     const nextStayContacts = this.state.contacts;
 
@@ -46,7 +44,8 @@ export class App extends Component {
     const number = e.number;
     const contactsLists = [...this.state.contacts];
 
-    const isExist = contactsLists.findIndex(contact => name === contact.name) !== -1;
+    const isExist =
+      contactsLists.findIndex(contact => name === contact.name) !== -1;
 
     if (isExist) {
       alert(`${name} is already in contacts.`);
